@@ -1,0 +1,3 @@
+{"_type":"plan","name":"mcp-client-core","status":"in-progress","title":"MCP client core: scaffold, domain layer, stdio transport, direct tool bridge","created_at":"2026-07-15T20:47:42.274Z","completed_at":null,"initiative":"pi-mcp"}
+{"_type":"plan","name":"mcp-remote-auth","status":"in-progress","title":"Remote MCP servers: Streamable HTTP, SSE fallback, OAuth 2.1","created_at":"2026-07-15T20:50:05.019Z","completed_at":null,"initiative":"pi-mcp","depends_on":["mcp-client-core"]}
+{"_type":"plan","name":"mcp-ux-lazy","status":"in-progress","title":"Hybrid UX: lazy gateway tool, /mcp command suite, packaging polish","created_at":"2026-07-15T20:51:01.283Z","completed_at":null,"initiative":"pi-mcp","depends_on":["mcp-client-core"]}
