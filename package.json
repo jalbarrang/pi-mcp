@@ -2,10 +2,10 @@
   "name": "@dreki-gg/pi-mcp",
   "version": "0.1.0",
   "description": "MCP client extension for pi",
-  "keywords": ["pi-package"],
+  "keywords": ["pi-package", "mcp", "model-context-protocol"],
   "license": "MIT",
   "type": "module",
-  "files": ["extensions", "!extensions/mcp/__tests__", "bin", "README.md", "CHANGELOG.md", "package.json"],
+  "files": ["extensions", "!extensions/mcp/__tests__", "bin", "README.md", "CHANGELOG.md", "LICENSE", "package.json"],
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "oxlint extensions bin",
