@@ -17,7 +17,17 @@ export class ConnectionManager {
     }
   }
   async stopAll() {
-    await Promise.all([...this.connections.values()].map((connection) => connection.close()));
+    const connections = [...this.connections];
+    const results = await Promise.allSettled(
+      connections.map(([, connection]) => connection.close()),
+    );
     this.connections.clear();
+    for (const [index, result] of results.entries()) {
+      if (result.status === "rejected") {
+        const reason =
+          result.reason instanceof Error ? result.reason.message : String(result.reason);
+        this.notices.push(`${connections[index][0]}: failed to close (${reason})`);
+      }
+    }
   }
 }

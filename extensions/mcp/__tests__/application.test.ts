@@ -26,3 +26,14 @@ test("stops manager idempotently", async () => {
   await manager.stopAll();
   expect(fake.closed).toBe(1);
 });
+test("clears connections when a close fails", async () => {
+  const failing = new Fake();
+  failing.close = async () => {
+    throw new Error("closed");
+  };
+  const manager = new ConnectionManager(() => failing);
+  manager.connections.set("broken", failing);
+  await manager.stopAll();
+  expect(manager.connections.size).toBe(0);
+  expect(manager.notices).toEqual(["broken: failed to close (closed)"]);
+});
