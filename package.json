@@ -2,33 +2,72 @@
   "name": "@dreki-gg/pi-mcp",
   "version": "0.1.0",
   "description": "MCP client extension for pi",
-  "keywords": ["pi-package", "mcp", "model-context-protocol"],
+  "keywords": [
+    "pi-package",
+    "mcp",
+    "model-context-protocol"
+  ],
   "license": "MIT",
   "type": "module",
-  "files": ["extensions", "!extensions/mcp/__tests__", "bin", "README.md", "CHANGELOG.md", "LICENSE", "package.json"],
+  "files": [
+    "extensions",
+    "!extensions/mcp/__tests__",
+    "bin",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "package.json"
+  ],
   "scripts": {
     "typecheck": "tsc --noEmit",
     "lint": "oxlint extensions bin",
     "format": "oxfmt --write extensions bin",
     "format:check": "oxfmt --check extensions bin",
-    "test": "node bin/check-file-length.js && tsc --noEmit && bun test extensions/mcp/__tests__"
+    "test": "node bin/check-file-length.js && tsc --noEmit && bun test extensions/mcp/__tests__",
+    "prepare": "husky || true"
   },
-  "pi": {"extensions": ["./extensions/mcp"]},
-  "dependencies": {"@modelcontextprotocol/sdk": "^1.0.0"},
+  "pi": {
+    "extensions": [
+      "./extensions/mcp"
+    ]
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0"
+  },
   "devDependencies": {
     "@earendil-works/pi-coding-agent": "^0.80.7",
     "@earendil-works/pi-tui": "^0.80.7",
     "@types/node": "24",
+    "@typescript-eslint/parser": "^8.64.0",
     "bun-types": "latest",
+    "eslint": "^10.7.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.0.8",
     "oxfmt": "^0.43.0",
     "oxlint": "^1.58.0",
     "typebox": "^1.0.0",
     "typescript": "^6.0.0"
   },
-  "peerDependencies": {"@earendil-works/pi-coding-agent": "*", "@earendil-works/pi-tui": "*", "typebox": "*"},
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*",
+    "@earendil-works/pi-tui": "*",
+    "typebox": "*"
+  },
   "peerDependenciesMeta": {
-    "@earendil-works/pi-coding-agent": {"optional": true},
-    "@earendil-works/pi-tui": {"optional": true},
-    "typebox": {"optional": true}
+    "@earendil-works/pi-coding-agent": {
+      "optional": true
+    },
+    "@earendil-works/pi-tui": {
+      "optional": true
+    },
+    "typebox": {
+      "optional": true
+    }
+  },
+  "lint-staged": {
+    "*.{ts,js}": [
+      "oxfmt --write",
+      "eslint --max-warnings 0 --no-warn-ignored"
+    ]
   }
 }
