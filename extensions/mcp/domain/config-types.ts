@@ -24,6 +24,8 @@ export interface RemoteServerSpec extends SharedServerSpec {
   kind: "http" | "sse";
   url: string;
   headers: Record<string, string>;
+  oauth?: boolean;
+  oauthPort?: number;
 }
 
 export type ServerSpec = StdioServerSpec | RemoteServerSpec;

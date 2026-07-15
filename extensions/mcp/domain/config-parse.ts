@@ -34,7 +34,14 @@ export function parseServer(name: string, raw: RawServer): ParseResult {
     };
   if (typeof raw.url === "string") {
     const kind = raw.type === "sse" ? "sse" : "http";
-    return { ...base, kind, url: raw.url, headers: record(raw.headers) ?? {} };
+    return {
+      ...base,
+      kind,
+      url: raw.url,
+      headers: record(raw.headers) ?? {},
+      ...(typeof raw.oauth === "boolean" && { oauth: raw.oauth }),
+      ...(typeof raw.oauthPort === "number" && { oauthPort: raw.oauthPort }),
+    };
   }
   return { error: `Server ${name} requires command or url` };
 }

@@ -11,3 +11,10 @@ test("infers http from url and accepts sse", () => {
     kind: "sse",
   });
 });
+
+test("accepts pi OAuth options", () => {
+  expect(parseServer("one", { url: "https://example.test", oauth: true, oauthPort: 7890 })).toMatchObject({
+    oauth: true,
+    oauthPort: 7890,
+  });
+});
