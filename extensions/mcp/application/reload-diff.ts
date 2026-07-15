@@ -17,5 +17,10 @@ export function diffCatalogs(previous: Catalog, next: Catalog): ReloadDiff {
     else if (JSON.stringify(old) === JSON.stringify(spec)) unchanged.push(name);
     else changed.push(name);
   }
-  return { added, changed, unchanged, removed: [...previous.keys()].filter((name) => !next.has(name)) };
+  return {
+    added,
+    changed,
+    unchanged,
+    removed: [...previous.keys()].filter((name) => !next.has(name)),
+  };
 }

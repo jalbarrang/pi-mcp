@@ -21,7 +21,8 @@ function parameter(name: string, schema: Schema, required: boolean, depth = 0): 
 export function renderToolHelp(tool: BridgedTool): string {
   const schema = tool.schema as Schema;
   const required = new Set(Array.isArray(schema.required) ? schema.required : []);
-  const properties = schema.properties && typeof schema.properties === "object" ? schema.properties : {};
+  const properties =
+    schema.properties && typeof schema.properties === "object" ? schema.properties : {};
   const lines = [`${tool.bridgedName}: ${tool.description ?? tool.name}`, "Parameters:"];
   const entries = Object.entries(properties as Schema);
   if (!entries.length) lines.push("- none");

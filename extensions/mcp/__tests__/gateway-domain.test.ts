@@ -22,7 +22,7 @@ const tool = (bridgedName: string): BridgedTool => ({
 
 test("renders required, optional, enum, default, and nested parameters", () => {
   expect(renderToolHelp(tool("alpha_find"))).toBe(
-    "alpha_find: Find records\nParameters:\n- query (required): string\n- mode (optional): string; one of: fast, full; default: \"fast\"\n- filters (optional): object\n  - limit (optional): number",
+    'alpha_find: Find records\nParameters:\n- query (required): string\n- mode (optional): string; one of: fast, full; default: "fast"\n- filters (optional): object\n  - limit (optional): number',
   );
 });
 

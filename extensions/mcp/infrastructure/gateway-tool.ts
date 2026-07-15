@@ -1,5 +1,10 @@
 import { StringEnum } from "@earendil-works/pi-ai";
-import { DEFAULT_MAX_BYTES, DEFAULT_MAX_LINES, truncateHead, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
+import {
+  DEFAULT_MAX_BYTES,
+  DEFAULT_MAX_LINES,
+  truncateHead,
+  type ExtensionAPI,
+} from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
 import type { GatewayRequest } from "../application/gateway.js";
 
@@ -20,11 +25,17 @@ export function registerGatewayTool(
     description: "Discover and call tools on lazy MCP servers. args must be a JSON string.",
     parameters,
     promptSnippet: "Discover and call tools on lazy MCP servers: list → describe → call",
-    promptGuidelines: ["Use mcp with action \"describe\" before the first call to a tool."],
+    promptGuidelines: ['Use mcp with action "describe" before the first call to a tool.'],
     async execute(_id, request, signal) {
       const text = await gateway(request, signal);
       return {
-        content: [{ type: "text", text: truncateHead(text, { maxBytes: DEFAULT_MAX_BYTES, maxLines: DEFAULT_MAX_LINES }).content }],
+        content: [
+          {
+            type: "text",
+            text: truncateHead(text, { maxBytes: DEFAULT_MAX_BYTES, maxLines: DEFAULT_MAX_LINES })
+              .content,
+          },
+        ],
         details: {},
       };
     },

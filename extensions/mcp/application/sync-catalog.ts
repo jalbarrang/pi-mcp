@@ -3,7 +3,7 @@ import { ToolCatalog } from "../domain/tool-catalog.js";
 import { applyFilters } from "../domain/tool-filter.js";
 import { bridgeToolName } from "../domain/tool-name.js";
 import type { McpConnectionPort } from "./ports.js";
-import { createSyncState, type SyncState } from "./sync-tools.js";
+import { createSyncState } from "./sync-tools.js";
 
 export async function syncCatalog(
   server: string,
