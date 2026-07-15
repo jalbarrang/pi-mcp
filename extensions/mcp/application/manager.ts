@@ -43,6 +43,13 @@ export class ConnectionManager {
     return result.connection;
   }
 
+  async disconnect(name: string) {
+    const connection = this.connections.get(name);
+    if (!connection) return;
+    await connection.close();
+    this.connections.delete(name);
+  }
+
   async stopAll() {
     const connections = [...this.connections];
     connections.forEach(([, connection]) => connection.abortAuthorization?.());
