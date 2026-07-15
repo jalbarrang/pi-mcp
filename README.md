@@ -34,11 +34,26 @@ Configuration sources are loaded in this order; later entries replace an earlier
 
 Project sources are read only when pi trusts the project. Set `PI_CODING_AGENT_DIR` to use a different agent directory. `${VAR}` expands from the environment in commands, arguments, environment variables, URLs, and headers; unresolved variables remain literal and produce a notice.
 
-Standard MCP entries support stdio (`command`, optional `args`, `env`, and `cwd`) and remote (`type: "http" | "sse"`, `url`, optional `headers`) shapes. Pi-specific keys are `enabled` (defaults to `true`), `lazy` (defaults to `false`), `includeTools`, and `excludeTools`.
+Standard MCP entries support stdio (`command`, optional `args`, `env`, and `cwd`) and remote (`type: "http" | "sse"`, `url`, optional `headers`) shapes. Pi-specific keys are `enabled` (defaults to `true`), `lazy` (defaults to `false`), `includeTools`, `excludeTools`, `oauth`, and `oauthPort`. Static headers from project config apply only when pi trusts the project.
+
+## Remote servers and OAuth
+
+Use Streamable HTTP by default; use `"type": "sse"` only for legacy servers. HTTP connections retry legacy SSE after an initialization 4xx.
+
+```json
+{
+  "mcpServers": {
+    "linear": { "type": "http", "url": "https://mcp.linear.app/mcp" },
+    "internal": { "type": "http", "url": "https://mcp.example/mcp", "headers": { "Authorization": "Bearer ${MCP_TOKEN}" } }
+  }
+}
+```
+
+On a 401, pi opens the OAuth authorization URL when the server supports OAuth; if the browser cannot open, pi displays the URL. `oauth: false` disables this behavior, while `oauthPort` chooses a fixed localhost callback port. Tokens, client registration, PKCE data, and discovery metadata live in `<pi agent dir>/mcp-auth/<server>.json` with owner-only permissions. Delete that file to reset a server's credentials; an interactive reset command is planned separately.
 
 ## Current scope
 
-This release connects enabled, direct stdio servers and registers tools as `<server>_<tool>`. Remote transports with OAuth and lazy servers with a gateway are deferred to follow-up packages. pi cannot unregister a tool during a session: if an MCP server later withdraws one, its existing pi registration remains and reports the server error when invoked.
+This release connects enabled, direct stdio and remote servers and registers tools as `<server>_<tool>`. OAuth-required servers are reported as `needs-auth` and will authorize on first use. Lazy servers with a gateway remain deferred. pi cannot unregister a tool during a session: if an MCP server later withdraws one, its existing pi registration remains and reports the server error when invoked.
 
 ## Layout
 

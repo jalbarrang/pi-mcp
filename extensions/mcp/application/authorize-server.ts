@@ -11,7 +11,11 @@ export function authorizeServer(connection: McpConnectionPort, signal: AbortSign
 }
 
 async function run(connection: McpConnectionPort, signal: AbortSignal) {
-  if (!connection.retryConnection || !connection.beginAuthorization || !connection.isAuthorizationError)
+  if (
+    !connection.retryConnection ||
+    !connection.beginAuthorization ||
+    !connection.isAuthorizationError
+  )
     throw new Error("Server does not support authorization");
   try {
     await connection.retryConnection();

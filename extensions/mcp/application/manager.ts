@@ -12,13 +12,14 @@ export class ConnectionManager {
         continue;
       }
       const result = await connectServer(spec, this.factory);
-      if (result.connection.state === "needs-auth") this.connections.set(spec.name, result.connection);
-      else if (result.error) this.notices.push(`${spec.name}: ${result.error}`);
-      else this.connections.set(spec.name, result.connection);
+      this.connections.set(spec.name, result.connection);
+      if (result.error && result.connection.state !== "needs-auth")
+        this.notices.push(`${spec.name}: ${result.error}`);
     }
   }
   async stopAll() {
     const connections = [...this.connections];
+    connections.forEach(([, connection]) => connection.abortAuthorization?.());
     const results = await Promise.allSettled(
       connections.map(([, connection]) => connection.close()),
     );

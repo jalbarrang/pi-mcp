@@ -2,7 +2,10 @@ import { createServer, type Server } from "node:http";
 import type { CallbackServerPort, CallbackSessionPort } from "../application/ports.js";
 
 export class CallbackServer implements CallbackServerPort {
-  constructor(private readonly port = 0, private readonly timeout = 300_000) {}
+  constructor(
+    private readonly port = 0,
+    private readonly timeout = 300_000,
+  ) {}
   async start(): Promise<CallbackSessionPort> {
     let server: Server;
     let expectedState = "";
@@ -23,21 +26,25 @@ export class CallbackServer implements CallbackServerPort {
     const address = server.address() as { port: number };
     return {
       redirectUrl: `http://127.0.0.1:${address.port}/callback`,
-      waitForCode: (state, signal) => new Promise((resolve, reject) => {
-        expectedState = state;
-        const timer = setTimeout(() => done(new Error("Authorization timed out")), this.timeout);
-        const abort = () => done(new Error("Authorization cancelled"));
-        const done = (error?: Error, code?: string) => {
-          clearTimeout(timer);
-          signal.removeEventListener("abort", abort);
-          server.close();
-          settle = undefined;
-          if (error) reject(error); else resolve(code!);
-        };
-        settle = done;
-        signal.addEventListener("abort", abort, { once: true });
-      }),
-      close: async () => { server.close(); },
+      waitForCode: (state, signal) =>
+        new Promise((resolve, reject) => {
+          expectedState = state;
+          const timer = setTimeout(() => done(new Error("Authorization timed out")), this.timeout);
+          const abort = () => done(new Error("Authorization cancelled"));
+          const done = (error?: Error, code?: string) => {
+            clearTimeout(timer);
+            signal.removeEventListener("abort", abort);
+            server.close();
+            settle = undefined;
+            if (error) reject(error);
+            else resolve(code!);
+          };
+          settle = done;
+          signal.addEventListener("abort", abort, { once: true });
+        }),
+      close: async () => {
+        server.close();
+      },
     };
   }
 }

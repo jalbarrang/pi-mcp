@@ -1,4 +1,9 @@
-import type { AuthorizationAttemptPort, BrowserPort, CallbackServerPort, CredentialStorePort } from "../application/ports.js";
+import type {
+  AuthorizationAttemptPort,
+  BrowserPort,
+  CallbackServerPort,
+  CredentialStorePort,
+} from "../application/ports.js";
 import { OAuthProvider } from "./oauth-provider.js";
 
 export interface OAuthSession {
@@ -18,6 +23,9 @@ export async function createOAuthSession(
   const provider = new OAuthProvider(server, session.redirectUrl, store, browser, surfaceUrl);
   return {
     provider,
-    attempt: { waitForCode: (waitSignal) => session.waitForCode(provider.stateValue, waitSignal), close: () => session.close() },
+    attempt: {
+      waitForCode: (waitSignal) => session.waitForCode(provider.stateValue, waitSignal),
+      close: () => session.close(),
+    },
   };
 }

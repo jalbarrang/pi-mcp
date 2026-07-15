@@ -5,12 +5,18 @@ import type { CredentialStorePort, StoredCredential } from "../application/ports
 
 export class CredentialStore implements CredentialStorePort {
   readonly warnings: string[] = [];
-  constructor(private readonly directory = join(process.env.PI_CODING_AGENT_DIR ?? join(homedir(), ".pi", "agent"), "mcp-auth")) {}
+  constructor(
+    private readonly directory = join(
+      process.env.PI_CODING_AGENT_DIR ?? join(homedir(), ".pi", "agent"),
+      "mcp-auth",
+    ),
+  ) {}
   async load(serverName: string): Promise<StoredCredential | undefined> {
     try {
       return JSON.parse(await readFile(this.path(serverName), "utf8")) as StoredCredential;
     } catch (error) {
-      if ((error as NodeJS.ErrnoException).code !== "ENOENT") this.warnings.push(`${serverName}: unreadable credentials`);
+      if ((error as NodeJS.ErrnoException).code !== "ENOENT")
+        this.warnings.push(`${serverName}: unreadable credentials`);
       return undefined;
     }
   }
@@ -22,7 +28,9 @@ export class CredentialStore implements CredentialStorePort {
     await chmod(path, 0o600);
   }
   async clear(serverName: string) {
-    try { await unlink(this.path(serverName)); } catch (error) {
+    try {
+      await unlink(this.path(serverName));
+    } catch (error) {
       if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
     }
   }

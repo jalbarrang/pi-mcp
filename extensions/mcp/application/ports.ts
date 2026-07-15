@@ -12,6 +12,7 @@ export interface McpConnectionPort {
   retryConnection?(): Promise<void>;
   beginAuthorization?(signal: AbortSignal): Promise<AuthorizationAttemptPort>;
   isAuthorizationError?(error: unknown): boolean;
+  abortAuthorization?(): void;
   close(): Promise<void>;
 }
 export interface ToolRegistryPort {

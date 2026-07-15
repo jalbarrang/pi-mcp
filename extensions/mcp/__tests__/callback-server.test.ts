@@ -2,10 +2,14 @@ import { expect, test } from "bun:test";
 import { get } from "node:http";
 import { CallbackServer } from "../infrastructure/callback-server.js";
 
-const request = (url: string) => new Promise<number>((resolve, reject) => {
-  const req = get(url, (res) => { res.resume(); res.on("end", () => resolve(res.statusCode!)); });
-  req.on("error", reject);
-});
+const request = (url: string) =>
+  new Promise<number>((resolve, reject) => {
+    const req = get(url, (res) => {
+      res.resume();
+      res.on("end", () => resolve(res.statusCode!));
+    });
+    req.on("error", reject);
+  });
 
 test("accepts one valid authorization callback", async () => {
   const controller = new AbortController();

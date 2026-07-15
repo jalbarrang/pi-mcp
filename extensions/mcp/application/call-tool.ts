@@ -7,7 +7,8 @@ export async function callTool(
   args: unknown,
   signal?: AbortSignal,
 ) {
-  if (connection.state === "needs-auth") await authorizeServer(connection, signal ?? new AbortController().signal);
+  if (connection.state === "needs-auth")
+    await authorizeServer(connection, signal ?? new AbortController().signal);
   const result = await connection.callTool(name, args, signal);
   const content = mapContent(result.content);
   if (result.isError)
