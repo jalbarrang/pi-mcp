@@ -13,6 +13,7 @@ import { ConfigLoader } from "./infrastructure/config-loader.js";
 import { CredentialStore } from "./infrastructure/credential-store.js";
 import { registerGatewayTool } from "./infrastructure/gateway-tool.js";
 import { registerMcpCommand } from "./infrastructure/commands.js";
+import { renderWidgetLine } from "./infrastructure/widget.js";
 import { HttpConnection, type OAuthSessionFactory } from "./infrastructure/http-connection.js";
 import { createOAuthSession } from "./infrastructure/oauth-session.js";
 import { PiRegistry } from "./infrastructure/pi-registry.js";
@@ -35,6 +36,11 @@ export default function mcpExtension(pi: ExtensionAPI) {
     notify = (url) => { if (ctx.hasUI) ctx.ui.notify(`Open this authorization URL in a browser: ${url}`, "info"); };
     const { catalog, errors } = mergeCatalogs(loader.loadSources(ctx.cwd, ctx.isProjectTrusted()));
     active = catalog;
+    const updateWidget = () => {
+      if (!ctx.hasUI) return;
+      const count = active.size;
+      ctx.ui.setWidget("mcp", count ? [renderWidgetLine(manager.connections, tools, count)] : undefined);
+    };
     const syncDirect = (name: string, connection: McpConnectionPort, source = catalog) => {
       const spec = source.get(name)!;
       const state = direct.get(name) ?? createSyncState();
@@ -70,6 +76,7 @@ export default function mcpExtension(pi: ExtensionAPI) {
           await manager.startAll(next);
           return `MCP reload: ${diff.added.length} added, ${diff.changed.length} changed, ${diff.removed.length} removed, ${diff.unchanged.length} unchanged`;
         },
+        updated: updateWidget,
       });
       commandsRegistered = true;
     }
@@ -79,6 +86,7 @@ export default function mcpExtension(pi: ExtensionAPI) {
       return syncDirect(name, connection);
     }));
     const count = results.reduce((total, result) => total + result.registered.length, 0);
+    updateWidget();
     const states = [...manager.connections].reduce((all, [, connection]) => ({ ...all, [connection.state]: (all[connection.state] ?? 0) + 1 }), {} as Record<string, number>);
     const auth = states["needs-auth"] ? `; ${states["needs-auth"]} needs-auth (run /mcp connect <name> to authorize)` : "";
     const lazyCount = [...catalog.values()].filter((spec) => spec.lazy).length;

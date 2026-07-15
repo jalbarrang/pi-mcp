@@ -11,6 +11,7 @@ type Runtime = {
   store?: CredentialStorePort;
   connect: (name: string) => Promise<void>;
   reload: () => Promise<string>;
+  updated?: () => void;
 };
 const subcommands = ["status", "connect", "disconnect", "tools", "reload", "auth"];
 const words = (values: string[]) => values.map((value) => ({ value, label: value }));
@@ -34,17 +35,19 @@ export function registerMcpCommand(pi: ExtensionAPI, runtime: Runtime) {
         });
         return message(ctx, lines.join("\n") || "MCP: no configured servers");
       }
-      if (command === "connect" && name) return connectAndAuthorize(runtime, name).then(() => message(ctx, `MCP: ${name} connected`));
+      if (command === "connect" && name) return connectAndAuthorize(runtime, name).then(() => { runtime.updated?.(); message(ctx, `MCP: ${name} connected`); });
       if (command === "disconnect" && name) {
         await runtime.manager.disconnect(name);
+        runtime.updated?.();
         return message(ctx, `MCP: ${name} disconnected`);
       }
       if (command === "tools" && name) return message(ctx, runtime.tools.list(name).map((tool) => tool.bridgedName).join("\n") || `MCP: no tools for ${name}`);
-      if (command === "reload") return runtime.reload().then((text) => message(ctx, text));
+      if (command === "reload") return runtime.reload().then((text) => { runtime.updated?.(); message(ctx, text); });
       if (command === "auth" && name === "reset" && target) {
         if (!runtime.store) return message(ctx, "MCP: credential storage is unavailable", "warning");
         await runtime.store.clear(target);
         await runtime.manager.disconnect(target);
+        runtime.updated?.();
         return message(ctx, `MCP: credentials reset for ${target}`);
       }
       message(ctx, "Usage: /mcp [status|connect <server>|disconnect <server>|tools <server>|reload|auth reset <server>]", "warning");
