@@ -8,6 +8,7 @@ export interface McpConnectionPort {
   listTools(): Promise<RemoteTool[]>;
   callTool(name: string, args: unknown, signal?: AbortSignal): Promise<McpToolResult>;
   onToolsChanged?(handler: () => void): void;
+  finishAuth?(code: string): Promise<void>;
   close(): Promise<void>;
 }
 export interface ToolRegistryPort {
@@ -19,7 +20,7 @@ export interface ToolRegistryPort {
 export interface ConfigSourcePort {
   loadSources(cwd: string, projectTrusted: boolean): RawMcpConfig[];
 }
-export type ConnectionFactory = () => McpConnectionPort;
+export type ConnectionFactory = (spec: ServerSpec) => McpConnectionPort;
 export interface NoticeSink {
   notices: string[];
 }

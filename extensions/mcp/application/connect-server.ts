@@ -7,7 +7,7 @@ export async function connectServer(
   spec: ServerSpec,
   factory: ConnectionFactory,
 ): Promise<ConnectResult> {
-  const connection = factory();
+  const connection = factory(spec);
   try {
     await connection.connect(spec);
     return { connection };

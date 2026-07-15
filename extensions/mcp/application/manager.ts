@@ -7,8 +7,8 @@ export class ConnectionManager {
   async startAll(catalog: Catalog) {
     for (const spec of catalog.values()) {
       if (!spec.enabled) continue;
-      if (spec.lazy || spec.kind !== "stdio") {
-        this.notices.push(`${spec.name}: deferred (remote/lazy support pending)`);
+      if (spec.lazy) {
+        this.notices.push(`${spec.name}: deferred (lazy support pending)`);
         continue;
       }
       const result = await connectServer(spec, this.factory);

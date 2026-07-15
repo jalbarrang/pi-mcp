@@ -6,10 +6,13 @@ import type { Catalog, McpConnectionPort } from "./application/ports.js";
 import { ConfigLoader } from "./infrastructure/config-loader.js";
 import { PiRegistry } from "./infrastructure/pi-registry.js";
 import { SdkConnection } from "./infrastructure/sdk-connection.js";
+import { HttpConnection } from "./infrastructure/http-connection.js";
 
 export default function mcpExtension(pi: ExtensionAPI) {
   const loader = new ConfigLoader();
-  const manager = new ConnectionManager(() => new SdkConnection());
+  const manager = new ConnectionManager((spec) =>
+    spec.kind === "stdio" ? new SdkConnection() : new HttpConnection(),
+  );
   const registry = new PiRegistry(pi);
   const syncStates = new Map<string, SyncState>();
   const syncServer = (name: string, connection: McpConnectionPort, catalog: Catalog) => {
