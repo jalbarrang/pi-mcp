@@ -1,6 +1,6 @@
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { ConnectionManager } from "./application/manager.js";
-import { syncTools } from "./application/sync-tools.js";
+import { createSyncState, syncTools, type SyncState } from "./application/sync-tools.js";
 import { mergeCatalogs } from "./domain/config-merge.js";
 import type { Catalog, McpConnectionPort } from "./application/ports.js";
 import { ConfigLoader } from "./infrastructure/config-loader.js";
@@ -11,9 +11,12 @@ export default function mcpExtension(pi: ExtensionAPI) {
   const loader = new ConfigLoader();
   const manager = new ConnectionManager(() => new SdkConnection());
   const registry = new PiRegistry(pi);
+  const syncStates = new Map<string, SyncState>();
   const syncServer = (name: string, connection: McpConnectionPort, catalog: Catalog) => {
     const spec = catalog.get(name)!;
-    return syncTools(name, connection, registry, spec.includeTools, spec.excludeTools);
+    const state = syncStates.get(name) ?? createSyncState();
+    syncStates.set(name, state);
+    return syncTools(name, connection, registry, state, spec.includeTools, spec.excludeTools);
   };
   pi.on("session_start", async (_event, ctx) => {
     const { catalog, errors } = mergeCatalogs(loader.loadSources(ctx.cwd, ctx.isProjectTrusted()));
