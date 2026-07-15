@@ -12,7 +12,8 @@ export class ConnectionManager {
         continue;
       }
       const result = await connectServer(spec, this.factory);
-      if (result.error) this.notices.push(`${spec.name}: ${result.error}`);
+      if (result.connection.state === "needs-auth") this.connections.set(spec.name, result.connection);
+      else if (result.error) this.notices.push(`${spec.name}: ${result.error}`);
       else this.connections.set(spec.name, result.connection);
     }
   }

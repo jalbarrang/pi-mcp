@@ -2,20 +2,23 @@ import { expect, test } from "bun:test";
 import { get } from "node:http";
 import { CallbackServer } from "../infrastructure/callback-server.js";
 
-const request = (port: number, path: string) => new Promise<number>((resolve, reject) => {
-  const req = get(`http://127.0.0.1:${port}${path}`, (res) => {
-    res.resume();
-    res.on("end", () => resolve(res.statusCode!));
-  });
+const request = (url: string) => new Promise<number>((resolve, reject) => {
+  const req = get(url, (res) => { res.resume(); res.on("end", () => resolve(res.statusCode!)); });
   req.on("error", reject);
 });
 
 test("accepts one valid authorization callback", async () => {
   const controller = new AbortController();
-  const port = 18_000 + Math.floor(Math.random() * 1_000);
-  const code = new CallbackServer(port).waitForCode("state", controller.signal);
-  await new Promise((resolve) => setTimeout(resolve, 10));
-  expect(await request(port, "/callback?state=state&code=code")).toBe(200);
+  const session = await new CallbackServer().start();
+  const code = session.waitForCode("state", controller.signal);
+  expect(await request(`${session.redirectUrl}?state=state&code=code`)).toBe(200);
   expect(await code).toBe("code");
 });
 
+test("rejects a mismatched callback state", async () => {
+  const controller = new AbortController();
+  const session = await new CallbackServer().start();
+  const code = session.waitForCode("state", controller.signal).catch((error) => error);
+  expect(await request(`${session.redirectUrl}?state=wrong&code=code`)).toBe(400);
+  expect((await code).message).toContain("validation");
+});

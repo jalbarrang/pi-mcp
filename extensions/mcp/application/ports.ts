@@ -9,6 +9,9 @@ export interface McpConnectionPort {
   callTool(name: string, args: unknown, signal?: AbortSignal): Promise<McpToolResult>;
   onToolsChanged?(handler: () => void): void;
   finishAuth?(code: string): Promise<void>;
+  retryConnection?(): Promise<void>;
+  beginAuthorization?(signal: AbortSignal): Promise<AuthorizationAttemptPort>;
+  isAuthorizationError?(error: unknown): boolean;
   close(): Promise<void>;
 }
 export interface ToolRegistryPort {
@@ -27,9 +30,17 @@ export interface NoticeSink {
 export interface BrowserPort {
   open(url: URL): Promise<void>;
 }
-export interface CallbackServerPort {
+export interface CallbackSessionPort {
+  redirectUrl: string;
   waitForCode(state: string, signal: AbortSignal): Promise<string>;
-  close?(): Promise<void>;
+  close(): Promise<void>;
+}
+export interface CallbackServerPort {
+  start(signal: AbortSignal): Promise<CallbackSessionPort>;
+}
+export interface AuthorizationAttemptPort {
+  waitForCode(signal: AbortSignal): Promise<string>;
+  close(): Promise<void>;
 }
 export interface StoredCredential {
   tokens?: Record<string, unknown>;
