@@ -7,5 +7,7 @@ test("infers stdio from command", () => {
 
 test("infers http from url and accepts sse", () => {
   expect(parseServer("one", { url: "https://example.test" })).toMatchObject({ kind: "http" });
-  expect(parseServer("two", { type: "sse", url: "https://example.test" })).toMatchObject({ kind: "sse" });
+  expect(parseServer("two", { type: "sse", url: "https://example.test" })).toMatchObject({
+    kind: "sse",
+  });
 });

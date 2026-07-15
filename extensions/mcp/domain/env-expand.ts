@@ -13,10 +13,21 @@ function expandString(value: string, env: Record<string, string>, warnings: stri
 
 export function expandEnv(value: string, env: Record<string, string>): Expanded<string>;
 export function expandEnv(value: string[], env: Record<string, string>): Expanded<string[]>;
-export function expandEnv(value: Record<string, string>, env: Record<string, string>): Expanded<Record<string, string>>;
-export function expandEnv(value: string | string[] | Record<string, string>, env: Record<string, string>): Expanded<typeof value> {
+export function expandEnv(
+  value: Record<string, string>,
+  env: Record<string, string>,
+): Expanded<Record<string, string>>;
+export function expandEnv(
+  value: string | string[] | Record<string, string>,
+  env: Record<string, string>,
+): Expanded<typeof value> {
   const warnings: string[] = [];
   const expand = (entry: string) => expandString(entry, env, warnings);
-  const result = typeof value === "string" ? expand(value) : Array.isArray(value) ? value.map(expand) : Object.fromEntries(Object.entries(value).map(([key, entry]) => [key, expand(entry)]));
+  const result =
+    typeof value === "string"
+      ? expand(value)
+      : Array.isArray(value)
+        ? value.map(expand)
+        : Object.fromEntries(Object.entries(value).map(([key, entry]) => [key, expand(entry)]));
   return { value: result as typeof value, warnings };
 }
