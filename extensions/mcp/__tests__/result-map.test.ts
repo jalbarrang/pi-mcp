@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { mapContent } from "../domain/result-map.js";
 test("maps images and unknown blocks", () => {
   expect(

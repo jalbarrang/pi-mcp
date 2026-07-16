@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { expandEnv } from "../domain/env-expand.js";
 
 test("expands strings, arrays, and records", () => {

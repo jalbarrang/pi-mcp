@@ -1,3 +1,3 @@
-import { test, expect } from "bun:test";
+import { test, expect } from "vitest";
 
 test("placeholder", () => expect(true).toBe(true));

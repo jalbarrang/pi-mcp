@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { renderToolHelp } from "../domain/describe-render.js";
 import { ToolCatalog } from "../domain/tool-catalog.js";
 import type { BridgedTool } from "../domain/tool-types.js";

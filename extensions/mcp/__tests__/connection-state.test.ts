@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { canTransition } from "../domain/connection-state.js";
 
 test("allows an auth-required connection to retry", () => {

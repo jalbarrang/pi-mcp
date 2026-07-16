@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { authorizeServer } from "../application/authorize-server.js";
 import type { McpConnectionPort } from "../application/ports.js";
 

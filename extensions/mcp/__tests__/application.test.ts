@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { callTool } from "../application/call-tool.js";
 import { ConnectionManager } from "../application/manager.js";
 import type { McpConnectionPort } from "../application/ports.js";

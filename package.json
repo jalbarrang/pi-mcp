@@ -22,7 +22,7 @@
     "lint": "oxlint extensions bin",
     "format": "oxfmt --write extensions bin",
     "format:check": "oxfmt --check extensions bin",
-    "test": "eslint extensions --max-warnings 0 && tsc --noEmit && bun test extensions/mcp/__tests__",
+    "test": "eslint extensions --max-warnings 0 && tsc --noEmit && vitest run",
     "prepare": "husky || true"
   },
   "pi": {
@@ -38,19 +38,22 @@
     "@earendil-works/pi-tui": "^0.80.7",
     "@types/node": "24",
     "@typescript-eslint/parser": "^8.64.0",
-    "bun-types": "latest",
     "eslint": "^10.7.0",
     "husky": "^9.1.7",
     "lint-staged": "^17.0.8",
     "oxfmt": "^0.43.0",
     "oxlint": "^1.58.0",
     "typebox": "^1.0.0",
-    "typescript": "^6.0.0"
+    "typescript": "^6.0.0",
+    "vitest": "^4.0.18",
+    "@earendil-works/pi-ai": "^0.80.7",
+    "zod": "^4.0.0"
   },
   "peerDependencies": {
     "@earendil-works/pi-coding-agent": "*",
     "@earendil-works/pi-tui": "*",
-    "typebox": "*"
+    "typebox": "*",
+    "@earendil-works/pi-ai": "*"
   },
   "peerDependenciesMeta": {
     "@earendil-works/pi-coding-agent": {
@@ -61,6 +64,9 @@
     },
     "typebox": {
       "optional": true
+    },
+    "@earendil-works/pi-ai": {
+      "optional": true
     }
   },
   "lint-staged": {
@@ -68,5 +74,6 @@
       "oxfmt --write",
       "eslint --max-warnings 0 --no-warn-ignored"
     ]
-  }
+  },
+  "packageManager": "pnpm@11.11.0"
 }

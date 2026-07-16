@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { get } from "node:http";
 import { CallbackServer } from "../infrastructure/callback-server.js";
 

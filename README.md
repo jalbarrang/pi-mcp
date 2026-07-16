@@ -86,10 +86,10 @@ Project configuration can start processes, so pi trust-gates it. OAuth tokens, c
 ## Development
 
 ```sh
-bun install
-npm test
-npm run lint
-npm run format:check
+pnpm install
+pnpm test
+pnpm lint
+pnpm format:check
 ```
 
-`npm test` enforces the 100-line limit for each TypeScript file, typechecks, and runs the Bun suite.
+`pnpm test` enforces the 100-line limit for each TypeScript file (eslint `max-lines`), typechecks, and runs the Vitest suite.

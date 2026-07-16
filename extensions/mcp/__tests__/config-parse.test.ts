@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { parseServer } from "../domain/config-parse.js";
 
 test("infers stdio from command", () => {

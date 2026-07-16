@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { connectAndAuthorize } from "../infrastructure/commands.js";
 import { ConnectionManager } from "../application/manager.js";
 import { diffCatalogs } from "../application/reload-diff.js";

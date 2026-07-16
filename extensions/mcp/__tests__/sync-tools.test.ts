@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { createSyncState, syncTools } from "../application/sync-tools.js";
 import type { McpConnectionPort, ToolRegistryPort } from "../application/ports.js";
 import type { BridgedTool, RemoteTool } from "../domain/tool-types.js";

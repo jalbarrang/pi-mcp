@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { ToolCatalog } from "../domain/tool-catalog.js";
 import { renderWidgetLine } from "../infrastructure/widget.js";
 import type { McpConnectionPort } from "../application/ports.js";

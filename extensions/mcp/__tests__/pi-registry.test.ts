@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { DEFAULT_MAX_BYTES } from "@earendil-works/pi-coding-agent";
 import { PiRegistry } from "../infrastructure/pi-registry.js";
 import type { PiContent } from "../domain/tool-types.js";

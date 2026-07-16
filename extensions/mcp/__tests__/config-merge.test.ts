@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { mergeCatalogs } from "../domain/config-merge.js";
 
 test("later config overrides a complete server entry", () => {

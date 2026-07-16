@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { OAuthProvider } from "../infrastructure/oauth-provider.js";
 
 const values = new Map<string, Record<string, unknown>>();

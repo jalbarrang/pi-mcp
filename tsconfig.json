@@ -10,9 +10,15 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true,
-    "tsBuildInfoFile": "./node_modules/.cache/mcp.tsbuildinfo",
-    "types": ["bun-types"],
+    "tsBuildInfoFile": "./node_modules/.cache/pi-mcp.tsbuildinfo",
+    "types": [
+      "node"
+    ],
     "rootDir": "."
   },
-  "include": ["extensions/**/*.ts", "extensions/**/__tests__/**/*.ts", "bin/**/*.js"]
+  "include": [
+    "extensions/**/*.ts",
+    "extensions/**/__tests__/**/*.ts",
+    "bin/**/*.js"
+  ]
 }

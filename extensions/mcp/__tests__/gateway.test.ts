@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { createGateway } from "../application/gateway.js";
 import { ConnectionManager } from "../application/manager.js";
 import { syncCatalog } from "../application/sync-catalog.js";

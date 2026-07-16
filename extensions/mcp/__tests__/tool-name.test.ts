@@ -1,4 +1,4 @@
-import { expect, test } from "bun:test";
+import { expect, test } from "vitest";
 import { bridgeToolName } from "../domain/tool-name.js";
 test("sanitizes and resolves collisions", () => {
   expect(bridgeToolName("a b", "c.d")).toBe("a_b_c_d");
