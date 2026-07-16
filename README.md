@@ -4,6 +4,8 @@ Use MCP servers in [pi](https://github.com/badlogic/pi-mono) as either native to
 
 ## Install
 
+Requires pi 0.80.7 or later and Node.js 22.19.0 or later.
+
 ```sh
 pi install npm:@dreki-gg/pi-mcp
 ```
@@ -92,4 +94,4 @@ pnpm lint
 pnpm format:check
 ```
 
-`pnpm test` enforces the 100-line limit for each TypeScript file (eslint `max-lines`), typechecks, and runs the Vitest suite.
+`pnpm test` enforces the 100-line limit for each TypeScript file (eslint `max-lines`), typechecks, and runs the Vitest suite. Run `pnpm pack:check` to inspect the exact npm tarball before a release. See [the publishing runbook](https://github.com/jalbarrang/pi-mcp/blob/main/docs/publishing.md) for the initial publish and trusted-publishing setup.

@@ -8,6 +8,20 @@
     "model-context-protocol"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jalbarrang/pi-mcp.git"
+  },
+  "homepage": "https://github.com/jalbarrang/pi-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/jalbarrang/pi-mcp/issues"
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "files": [
     "extensions",
@@ -23,6 +37,8 @@
     "format": "oxfmt --write extensions bin",
     "format:check": "oxfmt --check extensions bin",
     "test": "eslint extensions --max-warnings 0 && tsc --noEmit && vitest run",
+    "pack:check": "pnpm pack --dry-run",
+    "prepublishOnly": "pnpm test && pnpm pack --dry-run",
     "prepare": "husky || true"
   },
   "pi": {
