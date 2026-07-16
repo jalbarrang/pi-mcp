@@ -12,7 +12,6 @@
   "files": [
     "extensions",
     "!extensions/mcp/__tests__",
-    "bin",
     "README.md",
     "CHANGELOG.md",
     "LICENSE",
@@ -23,7 +22,7 @@
     "lint": "oxlint extensions bin",
     "format": "oxfmt --write extensions bin",
     "format:check": "oxfmt --check extensions bin",
-    "test": "node bin/check-file-length.js && tsc --noEmit && bun test extensions/mcp/__tests__",
+    "test": "eslint extensions --max-warnings 0 && tsc --noEmit && bun test extensions/mcp/__tests__",
     "prepare": "husky || true"
   },
   "pi": {
